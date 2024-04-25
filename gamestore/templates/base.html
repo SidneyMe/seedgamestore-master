@@ -64,10 +64,12 @@
                                         <li><a href="/admin"><span class="glyphicon glyphicon-wrench" style="margin-right: 0.5em;"></span> Admin </a></li>
                                     {% endif %}
                                     <li>
-                                        <form method="post" action="{% url 'logout' %}">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-link" style="text-decoration: none; color: inherit;"><span class="glyphicon glyphicon-log-out" style="margin-right: 0.5em;"></span> Logout </button>
-                                        </form>
+                                        <a href="#" style="display: block; padding: 10px 20px;">
+                                            <form method="post" action="{% url 'logout' %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-link" style="text-decoration: none; color: inherit; background: transparent; border: none; padding: 0; margin: 0;"><span class="glyphicon glyphicon-log-out" style="margin-right: 0.5em;"></span> Logout </button>
+                                            </form>
+                                        </a>
                                     </li>
                                 </ul>
                             </li>
@@ -90,7 +92,7 @@
     <footer class="navbar navbar-default footer">
         <div class="container">
             <ul class="nav navbar-nav">
-                <li>Copyright 2018</li>
+                <li>&copy; 2024</li>
             </ul>
         </div>
     </footer>

@@ -3,10 +3,10 @@ Django settings for wsd2018project project on Heroku. For more info, see:
 https://github.com/heroku/heroku-django-template
 
 For more information on this file, see
-https://docs.djangoproject.com/en/2.0/topics/settings/
+https://docs.djangoproject.com/en/5.0.4/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/2.0/ref/settings/
+https://docs.djangoproject.com/en/5.0.4/ref/settings/
 """
 
 import os
@@ -23,7 +23,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
+# See https://docs.djangoproject.com/en/5.0.4/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # this is same for everyone – you should probably alter it!
@@ -93,7 +93,7 @@ WSGI_APPLICATION = 'diploma2024.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
+# https://docs.djangoproject.com/en/5.0.4/ref/settings/#databases
 
 
 DATABASES = {
@@ -119,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization
-# https://docs.djangoproject.com/en/2.0/topics/i18n/
+# https://docs.djangoproject.com/en/5.0.4/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Europe/Kiev'
@@ -140,7 +140,7 @@ SECURE_SSL_REDIRECT = (sys.argv[1] != 'runserver')
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'django-reinhardt.herokuapp.com']
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
+# https://docs.djangoproject.com/en/5.0.4/howto/static-files/
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'

@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div class="container center">
+        {% if developer %}
+            <div id="apiinfo" class="container-fluid">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h2 class="panel-title"><a data-toggle="collapse" href="#collapseApi">REST API</a></h2>
+                    </div>
+                    <div id="collapseApi" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            {% if token %}
+                                <p>Token: {{ token }}</p>
+                                <div class="row">
+                                    <div class="col-md-4"><a class="btn btn-default" style="margin-top: 10px"; href="{% url "games" %}?token={{ token }}">Get all games</a></div>
+                                    <div class="col-md-4"><a class="btn btn-default" style="margin-top: 10px"; href="{% url "my_games" %}?token={{ token }}">Get my games as developer</a></div>
+                                </div>
+                            {% else %}
+                                <p>You don't have a token.</p>
+                            {% endif %}
+                        </div>
+                        <!-- <div class="panel-footer"></div> -->
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h1>My Games <small>{{ my_games|length }} Games</small></h1>
+                <hr>
+                {% if developer %}
+                    {% if my_games %}
+                        <div class="panel panel-default" style="text-align: left;">
+                            <table class="table table-bordered">
+                                {% for game in my_games %}
+                                    <tr>
+                                        <td><a class="text-primary" href="{% url "game" game.id %}">{{ game }}</a></td>
+                                        <td>{{ game.sales }} player{% if game.sales > 1 %}s{% endif %}</td>
+                                        <td><a class="text-primary" href="{% url "game_update" game.id %}"><span class="glyphicon glyphicon-edit" style="margin-left: 1.5em;"></span> Edit </a></td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    {% else %}
+                        <p>You have published no game yet.</p>
+                        {% url "game_create" as game_create_url %}
+                        <a class="btn btn-primary" href="{{ game_create_url }}">publish your first game</a>
+                    {% endif %}
+                {% else %}
+                    <div>
+                        <p>You are not registered as developer.</p>
+                           <a class="btn btn-primary" href="{% url "switch_to_developer" %}">become developer</a>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <h1>My Purchases <small>Total Spent: {{ total_spent }}€</small></h1>
+                <hr>
+                {% if payments %}
+                    <div class="panel panel-default" style="text-align: left;">
+                        <table class="table table-bordered">
+                            {% for payment in payments %}
+                                <tr>
+                                    <td><a class="text-primary" href="{% url "game" payment.game.id %}">{{ payment.game.name }}</a></td>
+                                    <td>{{ payment.date }}</td>
+                                    <td>{{ payment.amount }}€</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% else %}
+                    <p>You have purchased no game yet.</p>
+                    <a class="btn btn-primary" href="/">see our catalog</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

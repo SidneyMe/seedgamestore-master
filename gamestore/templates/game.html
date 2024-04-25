@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% load concat_tags %}
+
+{% block meta %}
+    <meta property="og:url" content="{{ request.get_full_path }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ object.name }}">
+    <meta property="og:description" content="Check out or add JS games on Django-Reinhardt's Gamestore">
+    <meta property="og:image" content="{{ object.cover.url }}">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {% with game as object %}
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <h2 class="panel-title col-xs-6 col-sm-8 col-md-9">{{ game.name }}</h2>
+                                <div class="col-xs-6 col-sm-4 col-md-3" style="padding: 0;">
+                                    <h2 class="{% if game.developer == user %}panel-title col-xs-12 col-sm-6{% else %}panel-title col-xs-12{% endif %}">
+                                        {% concat 'Play today ' game.name ' only for $' game.price|stringformat:"s" as tweet_text %}
+                                        <a href="https://twitter.com/intent/tweet?text={{ tweet_text|urlencode }}&url={{ 'http://127.0.0.1:8000'|add:request.get_full_path|urlencode }}" target="_blank" style="text-align: right;"><span class="glyphicon glyphicon-send" style="margin-right: 0.5em;"></span> Share</a>
+                                    </h2>
+                                    
+                                    {% if game.developer == user %}
+                                        <h2 class="panel-title col-xs-12 col-sm-6"><a href="{% url "game_update" game.id %}" style="text-align: right;"><span class="glyphicon glyphicon-edit" style="margin-right: 0.5em;"></span> Edit </a></h2>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body" style="text-align: center;">
+                            <div class="row">
+                                <div class="col-md-12" style="overflow: hidden;">
+                                    <div id="gameWrapper">
+                                        <iframe id="game-{{ game.id }}" src="{{ game.url }}" width="100%" height="100%" scrolling="no" frameborder="0"></iframe>
+                                    </div>
+                                    <button id="fullscreenButton" style="position: absolute; bottom: 10px; left: 10px;">Fullscreen</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <h4>Developer: {{ game.developer }}</h4>
+                        </div>
+                    </div>
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+    <script>
+        var gameId = "{{ game.id }}";
+        console.log("GameID: ", gameId);
+    </script>
+    {% include "message_receiver.html" %}
+    <script>
+        $(document).ready(function() {
+            adjustGameFrame();
+            $(window).resize(function() {
+                adjustGameFrame();
+            });
+            
+            $("#fullscreenButton").click(function() {
+                var gameIframe = document.getElementById("game-" + gameId);
+                if (gameIframe.requestFullscreen) {
+                    gameIframe.requestFullscreen();
+                } else if (gameIframe.mozRequestFullScreen) {
+                    gameIframe.mozRequestFullScreen();
+                } else if (gameIframe.webkitRequestFullscreen) {
+                    gameIframe.webkitRequestFullscreen();
+                } else if (gameIframe.msRequestFullscreen) {
+                    gameIframe.msRequestFullscreen();
+                }
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% load static %}
+{% load bootstrap %}
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/bootstrap-social.css" %}">
+    <link rel="stylesheet" href="{% static "css/jquery-ui.css" %}">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+
+    <head>
+        <title>Add Game | Seed Game Store</title>
+    </head>
+
+    <body>
+        {{ form.media }}
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ form|bootstrap }}
+            <button class="btn btn-primary">Add tag</button>
+        </form>
+    </body>
+</html>

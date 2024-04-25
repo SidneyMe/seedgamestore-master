@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{% block title %}Seed Game Store{% endblock %}</title>
+    {% block meta %}
+        <meta property="og:title" content="Seed Game Store">
+        <meta property="og:description" content="Just another JavaScript Game Store.">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://django-reinhardt.herokuapp.com">
+    {% endblock %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/bootstrap-social.css" %}">
+    <link rel="stylesheet" href="{% static "css/jquery-ui.css" %}">
+    <link rel="stylesheet" href="{% static "css/bootstrap-custom.css" %}">
+    <link rel="stylesheet" href="{% static "css/repair-autocomplete.css" %}">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <script src="{% static "js/jquery-3.2.1.min.js" %}"></script>
+    <script src="{% static "js/jquery-ui.js" %}"></script>
+</head>
+<body>
+    <div class="content">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">
+                        <strong>Seed Game Store</strong>
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        {% url "index" as index_url %}
+                        <li {% if request.path == index_url %}class="active"{% endif %}><a href="{{ index_url }}"><span class="glyphicon glyphicon-home" style="margin-right: 0.5em;"></span> Home</a></li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-tasks" style="margin-right: 0.5em;"></span> Developer <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                {% if request.user.is_developer %}
+                                    {% url "profile" request.user.id as profile_url %}
+                                    <li {% if request.path == profile_url %}class="active"{% endif %}><a href="{{ profile_url }}"><span class="glyphicon glyphicon-stats" style="margin-right: 0.5em;"></span> Statistics </a></li>
+                                    {% url "game_create" as game_create_url %}
+                                    <li {% if request.path == game_create_url %}class="active"{% endif %}><a href="{{ game_create_url }}"><span class="glyphicon glyphicon-plus" style="margin-right: 0.5em;"></span> Add Game </a></li>
+                                {% else %}
+                                    {% url "switch_to_developer" as switch_url %}
+                                    <li {% if request.path == switch_url %}class="active"{% endif %}><a href="{{ switch_url }}"><span class="glyphicon glyphicon-console" style="margin-right: 0.5em;"></span> Become a Developer </a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if request.user.is_authenticated %}
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user" style="margin-right: 0.5em;"></span> {{request.user.username}} <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{% url "profile" request.user.id %}"><span class="glyphicon glyphicon-user" style="margin-right: 0.5em;"></span> Profile </a></li>
+                                    {% if request.user.is_superuser %}
+                                        <li><a href="/admin"><span class="glyphicon glyphicon-wrench" style="margin-right: 0.5em;"></span> Admin </a></li>
+                                    {% endif %}
+                                    <li><a href="{% url "logout" %}"><span class="glyphicon glyphicon-log-out" style="margin-right: 0.5em;"></span> Logout </a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            {% url "signup" as signup_url %}
+                            <li {% if request.path == signup_url %}class="active"{% endif %}><a href="{% url "signup" %}"><span class="glyphicon glyphicon-user" style="margin-right: 0.5em;"></span> Sign Up </a></li>
+                            {% url "login" as login_url %}
+                            <li {% if request.path == login_url %}class="active"{% endif %}><a href="{% url "login" %}"><span class="glyphicon glyphicon-log-in" style="margin-right: 0.5em;"></span> Login </a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <script src="{% static "js/tether.min.js" %}"></script>
+        <script src="{% static "js/bootstrap.min.js" %}"></script>
+        <script src="{% static "js/masonry.pkgd.min.js" %}"></script>
+        <script src="{% static "js/main.js" %}"></script>
+        {% block body %}{% endblock %}
+    </div>
+    <footer class="navbar navbar-default footer">
+        <div class="container">
+            <ul class="nav navbar-nav">
+                <li>Copyright 2018</li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>

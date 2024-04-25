@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load static %}
+{% load cloudinary %}
+{% load index_tags %}
+{% load bootstrap %}
+
+{% block title %}Seed Game Store{% endblock %}
+
+{% block body %}
+    {{ form.media }}
+
+    <div id="searchEngine" class="container">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h2 class="panel-title"><a data-toggle="collapse" href="#collapseSearch">Advanced search</a></h2>
+            </div>
+            <div id="collapseSearch" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <form method="GET">
+                        {{ form|bootstrap }}
+                        <a class="btn btn-default" data-toggle="collapse" href="#collapseSearch">Cancel</a>
+                        <button class="btn btn-primary">Search</button>
+                    </form>
+                </div>
+                <!-- <div class="panel-footer"></div> -->
+            </div>
+        </div>
+    </div>
+    {% if messages %}
+        <div class="col-md-12">
+            {% for message in messages %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div id="games" class="container-fluid">
+        <div class="row">
+            {% for game in object_list %}
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" style="overflow-x: hidden;">
+                            <h2 class="panel-title" style="white-space: nowrap;">{% if game.possessed %}<a href="{% url "game" game.id %}">{% endif %}{{ game.name}}{% if game.possessed %}</a>{% endif %}</h2>  
+                        </div>
+                        <div class="panel-body">
+                            <a href="{% url "game" game.id %}">
+                                <div class="imageWrapper">
+                                    {% if game.cover %}
+                                        <img src="{{ game.cover.url }}" alt="Game Cover">
+                                    {% else %}
+                                        <img src="{% static "images/default_cover.png" %}" alt="Game Cover">
+                                    {% endif %}
+                                </div>
+                            </a>
+                            <div>
+                                <div style="margin: 10px 0 0 0; overflow-x: hidden;">
+                                    <div style="width: 10000%;">
+                                    {% for tag in game.gtags %}
+                                        <a class="gametag" href="/?tags=|{{ tag.pk }}|">{{ tag.name }}</a>
+                                    {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div style="float: right; margin-left: 10px;">
+                                        {% if request.user.is_authenticated %}
+                                            {% if game.possessed %}
+                                                <a href="{% url "game" game.id %}" class="btn btn-primary" >PLAY</a>
+                                            {% else %}
+                                                <form action="https://simplepayments.herokuapp.com/pay/" method="POST">
+                                                    <input type="hidden" name="pid" value="{{ game.next_payment_id }}">
+                                                    <input type="hidden" name="sid" value="g056">
+                                                    <input type="hidden" name="success_url"
+                                                           value="//{{ request.get_host }}{% url "payment_success" %}">
+                                                    <input type="hidden" name="cancel_url"
+                                                           value="//{{ request.get_host }}{% url "payment_cancel" %}">
+                                                    <input type="hidden" name="error_url"
+                                                           value="//{{ request.get_host }}{% url "payment_error" %}">
+                                                    <input type="hidden" name="checksum"
+                                                           value="{{ game.checksum }}">
+                                                    <input type="hidden" name="amount" value="{{ game.price }}">
+                                                    <button type="submit" class="btn btn-primary" >BUY FOR {{ game.price }}€</button>
+                                                </form>
+                                            {% endif %}
+                                        {% else %}
+                                            <a href="{% url "login" %}" class="btn btn-primary" >BUY FOR {{ game.price }}€</a>
+                                        {% endif %}
+                                    </div>
+
+                                    <div >
+                                        <div style="overflow-x: hidden;">
+                                            <h4 style="white-space: nowrap;">by {{ game.developer }}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% if is_paginated %}
+    <div class="container">
+        <div class="centered text-center">
+        <ul class="pagination">
+          {% if page_obj.has_previous %}
+              <li><a href="?{% url_replace request 'page' page_obj.previous_page_number %}">&laquo;</a></li>
+          {% else %}
+              <li class="disabled"><span>&laquo;</span></li>
+          {% endif %}
+          {% for i in custom_range %}
+              {% if page_obj.number == i %}
+                  <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+              {% else %}
+                  <li><a href="?{% url_replace request 'page' i %}">{{ i }}</a></li>
+              {% endif %}
+          {% endfor %}
+          {% if page_obj.has_next %}
+              <li><a href="?{% url_replace request 'page' page_obj.next_page_number %}">&raquo;</a></li>
+          {% else %}
+              <li class="disabled"><span>&raquo;</span></li>
+          {% endif %}
+      </ul>
+    </div>
+    </div>
+    {% endif %}
+{% endblock %}

@@ -63,7 +63,12 @@
                                     {% if request.user.is_superuser %}
                                         <li><a href="/admin"><span class="glyphicon glyphicon-wrench" style="margin-right: 0.5em;"></span> Admin </a></li>
                                     {% endif %}
-                                    <li><a href="{% url "logout" %}"><span class="glyphicon glyphicon-log-out" style="margin-right: 0.5em;"></span> Logout </a></li>
+                                    <li>
+                                        <form method="post" action="{% url 'logout' %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-link" style="text-decoration: none; color: inherit;"><span class="glyphicon glyphicon-log-out" style="margin-right: 0.5em;"></span> Logout </button>
+                                        </form>
+                                    </li>
                                 </ul>
                             </li>
                         {% else %}

@@ -145,7 +145,7 @@ USE_TZ = True
 # Change 'default' database configuration with $DATABASE_URL.
 #DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
 DATABASES = {
-    'default': dj_database_url.config(conn_max_age=600)
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'), conn_max_age=600)
 }
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()

@@ -26,7 +26,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # this is same for everyone – you should probably alter it!
-SECRET_KEY = "yh8w0vp&u@yh2z@q8elg44bsx#ze18(pqrn#ojah9pn@kb(qp8"
+SECRET_KEY = "93!750j$m@)lq(s-l7qj9vj9f%-gi_3z0gyk=6ymveclfx2ed$"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = (sys.argv[1] == 'runserver')
@@ -145,7 +145,7 @@ USE_TZ = True
 # Change 'default' database configuration with $DATABASE_URL.
 #DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
 DATABASES = {
-    'default': dj_database_url.config(default='postgres://u4slcl7rbgqvoe:pc0352382f2e486dd9bd1034aa4307b1abc94dc70d242b8ea0145354820fe97e7@cav8p52l9arddb.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com:5432/dbmafaittmla63')
+    'default': dj_database_url.config(conn_max_age=600)
 }
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
@@ -155,7 +155,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = (sys.argv[1] != 'runserver')
 
 # Allow all host headers
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'https://djangogamestore-9107f8d984d7.herokuapp.com/']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'https://djangogamestore-9107f8d984d7.herokuapp.com/', '*']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0.4/howto/static-files/

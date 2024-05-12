@@ -69,17 +69,14 @@
                                             {% if game.possessed %}
                                                 <a href="{% url "game" game.id %}" class="btn btn-primary" >PLAY</a>
                                             {% else %}
-                                                <form action="http://127.0.0.1:5000" method="POST">
+                                                <form action="{% url 'charge' %}" method="POST">
+                                                    {% csrf_token %}
                                                     <input type="hidden" name="pid" value="{{ game.next_payment_id }}">
                                                     <input type="hidden" name="sid" value="g056">
                                                     <input type="hidden" name="success_url"
-                                                           value="//{{ request.get_host }}{% url "payment_success" %}">
-                                                    <input type="hidden" name="cancel_url"
-                                                           value="//{{ request.get_host }}{% url "payment_cancel" %}">
-                                                    <input type="hidden" name="error_url"
-                                                           value="//{{ request.get_host }}{% url "payment_error" %}">
+                                                        value="//{{ request.get_host }}{% url "payment_success" %}">
                                                     <input type="hidden" name="checksum"
-                                                           value="{{ game.checksum }}">
+                                                        value="{{ game.checksum }}">
                                                     <input type="hidden" name="amount" value="{{ game.price }}">
                                                     <button type="submit" class="btn btn-primary" >BUY FOR {{ game.price }}$</button>
                                                 </form>

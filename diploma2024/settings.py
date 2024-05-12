@@ -184,5 +184,6 @@ SITE_ID = 5
 # django-ajax-selects settings
 AJAX_SELECT_BOOTSTRAP = False
 
-# Activate Django-Heroku.
-django_heroku.settings(locals())
+#stripe payment
+STRIPE_PUBLIC_KEY = 'pk_test_51PFaOr02IzE0WCScMA1I8v2wek3qjdM3Il6rLE4IxkHT0dBLbWqZUjaPa1A9ZjR3Svtezgt0vFCSW8OoQZi7rYGq00U2dmWFTJ'
+STRIPE_SECRET_KEY = 'sk_test_51PFaOr02IzE0WCScZP8sMoIAdWGkPIYUHN1iqBTRI5llhTfLKew7vaK6Xw9U4j8wSRe90tWOycn720YPQXLev6BF00Yf4h57T9'

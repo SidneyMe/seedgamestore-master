@@ -208,8 +208,14 @@ def delete_game(request, pk):
 def payment_view(request):
     """Displays the status of a payment.
     """
-    msg = "Your payment is IN PROCESS!"
-    if request.GET.get("result", "error") == "success":
+    msg = "Your payment was a SUCCESS!!"
+    if request.method == 'POST':
+        game_id = request.POST.get("pid").split("-")[0]
+        game = Game.objects.get(id=game_id)
+        Payment.objects.create(user=request.user, game=game, amount=game.price)
+        msg = "Your payment was a SUCCESS!"
+        return redirect('payment_success')
+    elif request.GET.get("result", "error") == "success":
         if "success" in request.path:
             game_id = request.GET["pid"].split("-")[0]
             game = Game.objects.get(id=game_id)

@@ -67,6 +67,7 @@ class Payment(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=9, decimal_places=2)
     date = models.DateTimeField(auto_now_add=True)
+    stripe_charge_id = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
         return "{} | {}$ | {}".format(self.game, self.amount, self.date.strftime("%Y-%m-%d | %H:%m"))

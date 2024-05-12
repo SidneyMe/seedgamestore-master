@@ -1,5 +1,5 @@
 """
-Django settings for wsd2018project project on Heroku. For more info, see:
+Django settings for diploma2024 project on Heroku. For more info, see:
 https://github.com/heroku/heroku-django-template
 
 For more information on this file, see
@@ -12,13 +12,12 @@ https://docs.djangoproject.com/en/5.0.4/ref/settings/
 import os
 import sys
 import platform
-from pathlib import Path
 import dj_database_url
 import django_heroku
 import cloudinary
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -32,7 +31,6 @@ SECRET_KEY = "yh8w0vp&u@yh2z@q8elg44bsx#ze18(pqrn#ojah9pn@kb(qp8"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = (sys.argv[1] == 'runserver')
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Application definition
 
 INSTALLED_APPS = [
@@ -95,11 +93,28 @@ WSGI_APPLICATION = 'diploma2024.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0.4/ref/settings/#databases
 
-
-DATABASES = {
+if platform.system() == "Windows":
+    DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            # the default database that "ships with" Django is sqlite
+            # that is, however, not something you would be using with a
+            # real production site. for that reason we're goingo to use
+            # the industry standard PostgreSQL
+
+            # 'ENGINE': 'django.db.backends.sqlite3',
+            # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'diploma2024'
+            # if you want to define user, password etc.
+            # do it here
         }
     }
 
@@ -137,7 +152,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = (sys.argv[1] != 'runserver')
 
 # Allow all host headers
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'django-reinhardt.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'https://djangogamestore-9107f8d984d7.herokuapp.com/']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0.4/howto/static-files/
@@ -179,7 +194,12 @@ EMAIL_HOST_USER = 'seedgamestore@outlook.com'
 EMAIL_HOST_PASSWORD = 'Diploma2024$'
 DEFAULT_FROM_EMAIL = 'seedgamestore@outlook.com'
 
-SITE_ID = 5
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SITE_ID = 1
 
 # django-ajax-selects settings
 AJAX_SELECT_BOOTSTRAP = False

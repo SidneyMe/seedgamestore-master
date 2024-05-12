@@ -143,8 +143,9 @@ USE_L10N = True
 USE_TZ = True
 
 # Change 'default' database configuration with $DATABASE_URL.
+#DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
 DATABASES = {
-    'default': dj_database_url.config(default='postgres://admin:admin@localhost:5432/diploma2024')
+    'default': dj_database_url.config(default='postgres://u4slcl7rbgqvoe:pc0352382f2e486dd9bd1034aa4307b1abc94dc70d242b8ea0145354820fe97e7@cav8p52l9arddb.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com:5432/dbmafaittmla63')
 }
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()

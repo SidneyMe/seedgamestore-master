@@ -69,7 +69,7 @@
                                             {% if game.possessed %}
                                                 <a href="{% url "game" game.id %}" class="btn btn-primary" >PLAY</a>
                                             {% else %}
-                                                <form action="https://simplepayments.herokuapp.com/pay/" method="POST">
+                                                <form action="http://127.0.0.1:5000" method="POST">
                                                     <input type="hidden" name="pid" value="{{ game.next_payment_id }}">
                                                     <input type="hidden" name="sid" value="g056">
                                                     <input type="hidden" name="success_url"
@@ -81,11 +81,11 @@
                                                     <input type="hidden" name="checksum"
                                                            value="{{ game.checksum }}">
                                                     <input type="hidden" name="amount" value="{{ game.price }}">
-                                                    <button type="submit" class="btn btn-primary" >BUY FOR {{ game.price }}€</button>
+                                                    <button type="submit" class="btn btn-primary" >BUY FOR {{ game.price }}$</button>
                                                 </form>
                                             {% endif %}
                                         {% else %}
-                                            <a href="{% url "login" %}" class="btn btn-primary" >BUY FOR {{ game.price }}€</a>
+                                            <a href="{% url "login" %}" class="btn btn-primary" >BUY FOR {{ game.price }}$</a>
                                         {% endif %}
                                     </div>
 

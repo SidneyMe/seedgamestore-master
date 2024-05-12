@@ -160,6 +160,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'https://djangogamestore-9107f8d984d7
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = [
     os.path.join(PROJECT_ROOT, 'static'),
@@ -206,5 +207,3 @@ AJAX_SELECT_BOOTSTRAP = False
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

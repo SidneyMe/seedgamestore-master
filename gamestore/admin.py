@@ -1,5 +1,5 @@
 from django.contrib import admin
-from gamestore.models import User, Game, GameState, Payment, Tag
+from gamestore.models import User, Game, Payment, Tag
 from ajax_select.admin import AjaxSelectAdmin
 from gamestore.forms import CreateGameForm
 
@@ -17,11 +17,6 @@ class TagAdmin(admin.ModelAdmin):
 @admin.register(Game)
 class GameAdmin(AjaxSelectAdmin):
     form = CreateGameForm
-
-
-@admin.register(GameState)
-class GameStateAdmin(admin.ModelAdmin):
-    pass
 
 
 @admin.register(Payment)

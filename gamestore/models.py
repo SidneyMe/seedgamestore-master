@@ -49,18 +49,6 @@ class Game(models.Model):
     def __str__(self):
         return self.name
 
-class GameState(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    game = models.ForeignKey(Game, on_delete=models.CASCADE)
-    data = models.TextField()
-    date = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ['-date']
-
-    def __str__(self):
-        return "{}: {} by {}".format(self.date, self.game, self.user)
-
 
 class Payment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

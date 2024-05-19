@@ -156,9 +156,11 @@ class GameCreateView(generic.FormView):
         """
         if (not self.request.user.is_developer) or form.cleaned_data["developer"] != self.request.user:
             return HttpResponse('Unauthorized', status=401)
+        if form.cleaned_data["price"] > 1000:
+            form.add_error('price', 'The price of the game cannot exceed 1000 USD.')
+            return self.form_invalid(form)
         game = form.save()
         Payment.objects.get_or_create(user=self.request.user, game=game, amount=0)
-        return super().form_valid(form)
 
 
 class GameUpdateView(generic.UpdateView):

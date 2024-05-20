@@ -175,9 +175,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp-mail.outlook.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'seedgamestore@outlook.com' 
+EMAIL_HOST_USER = 'seedgamestore1@outlook.com' 
 EMAIL_HOST_PASSWORD = 'Diploma2024$'
-DEFAULT_FROM_EMAIL = 'seedgamestore@outlook.com'
+DEFAULT_FROM_EMAIL = 'seedgamestore1@outlook.com'
 
 SITE_ID = 5
 

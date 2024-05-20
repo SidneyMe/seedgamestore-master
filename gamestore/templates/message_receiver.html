@@ -1,70 +1,7 @@
 <script>
-    window.addEventListener("message", receiveMessage, false);
+
     var gameFrame = $("#game-" + gameId);
 
-    function receiveMessage(event) {
-        var message = event.data;
-        console.log("PostMessage received: ", message);
-        switch (message.messageType) {
-            case "SAVE":
-                saveGamestate(event);
-                break;
-            case "LOAD_REQUEST":
-                requestGamestate(event);
-                break;
-            case "SETTING":
-                setSettings(event);
-                break;
-            default:
-                console.log("MessageType not recognized.");
-        }
-    }
-
-    function saveGamestate(event) {
-        var message = event.data;
-        $.ajax({
-            url: '{% url "save_gamestate" %}',
-            type: 'POST',
-            data: {
-                "gameId": gameId,
-                "gameState": JSON.stringify(message.gameState),
-                "csrfmiddlewaretoken": getCookie('csrftoken')
-            },
-            success: function(result) {
-                console.log("SUCCESS: ", result);
-            },
-            error: function(result) {
-                console.log("ERROR: ", result);
-            }
-        })
-    }
-
-    function requestGamestate(event) {
-        $.ajax({
-            url: '{% url "load_gamestate" %}',
-            type: 'POST',
-            data: {
-                "gameId": gameId,
-                "csrfmiddlewaretoken": getCookie('csrftoken')
-            },
-            success: function(result) {
-                loadGamestate(result);
-            },
-            error: function(result) {
-                throwError(result);
-            }
-        })
-    }
-
-    function loadGamestate(message) {
-        console.log("LOAD REQUEST SUCCESS: ", message);
-        gameFrame.get(0).contentWindow.postMessage(message, "*");
-    }
-
-    function throwError(message) {
-        console.log("LOAD REQUEST ERROR: ", message);
-        gameFrame.get(0).contentWindow.postMessage(message, "*");
-    }
 
     var gameWidth = 800;
     var gameHeight = 600;

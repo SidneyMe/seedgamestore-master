@@ -14,9 +14,7 @@ from simple_email_confirmation.models import EmailAddress
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 
-# /!\ Development only
-# Set to True to test with sqlite.
-# This is due to PostgreSQL-specific code
+
 SQLITESAFE = False
 
 
@@ -79,7 +77,6 @@ class IndexView(generic.ListView):
                 continue
             next_payment_id = "{}-{}".format(game.id, get_next_id(Payment))
             game.next_payment_id = next_payment_id
-            game.checksum = get_payment_checksum(next_payment_id, game.price)
         context["object_list"] = objects
 
         form = SearchForm(self.request.GET)
@@ -203,14 +200,6 @@ def payment_view(request):
         msg = "Your payment had an ERROR!"
     return render(request, "payment.html", {"msg": msg})
 
-
-def get_payment_checksum(pid, amount):
-    sid = "g056"
-    secret_key = "0b44e27c9d07c9152f5ffe0604eabfe8"
-    checksumstr = "pid={}&sid={}&amount={}&token={}".format(pid, sid, amount, secret_key)
-    m = md5(checksumstr.encode("ascii"))
-    checksum = m.hexdigest()
-    return checksum
 
 
 def get_next_id(model_class):

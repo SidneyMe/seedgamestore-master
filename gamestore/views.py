@@ -21,17 +21,13 @@ SQLITESAFE = False
 
 
 class IndexView(generic.ListView):
-    """The view to display the catalog of games on homepage.
-    """
-
+    
     model = Game
     template_name = "index.html"
     paginate_by = 12
 
 
     def get_queryset(self):
-        """Get all the games and filter them according to the GET parameters
-        """
 
         qs = Game.objects.all()
 
@@ -67,9 +63,6 @@ class IndexView(generic.ListView):
 
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        """Associate to the games some data needed in the template:
-           payment info, possessed or not, tags.
-        """
 
         context = super().get_context_data(**kwargs)
         objects = context["object_list"]
@@ -107,15 +100,11 @@ class IndexView(generic.ListView):
 
 
 class GameView(generic.DetailView):
-    """View where the user can play a game that they have purchased.
-    """
 
     model = Game
     template_name = "game.html"
 
     def get(self, request, *args, pk=None, **kwargs):
-        """Get the requested game if the user is authenticated and has purchased it.
-        """
 
         if not request.user.is_authenticated:
             possessed = False
@@ -129,17 +118,12 @@ class GameView(generic.DetailView):
 
 
 class GameCreateView(generic.FormView):
-    """View where a developer can create a game.
-    """
 
     form_class = CreateGameForm
     template_name = "game_create.html"
     success_url = "/"
 
     def get(self, request, *args, **kwargs):
-        """Shows the form to developers, redirects non-developer users to
-           their profile page.
-        """
         if not request.user.is_authenticated:
             return HttpResponseRedirect(reverse("login"))
         elif not request.user.is_developer:
@@ -152,8 +136,6 @@ class GameCreateView(generic.FormView):
 
 
     def form_valid(self, form):
-        """Creates the game if the user is a developer.
-        """
         if (not self.request.user.is_developer) or form.cleaned_data["developer"] != self.request.user:
             return HttpResponse('Unauthorized', status=401)
         if form.cleaned_data["price"] > 1000:
@@ -164,8 +146,6 @@ class GameCreateView(generic.FormView):
 
 
 class GameUpdateView(generic.UpdateView):
-    """Allows the developer of a game to edit or delete their game.
-    """
 
     model = Game
     form_class = CreateGameForm
@@ -173,8 +153,6 @@ class GameUpdateView(generic.UpdateView):
     success_url = "/"
 
     def get(self, request, *args, pk=None, **kwargs):
-        """Checks that the user is authenticated and is the owner of the game.
-        """
         if not request.user.is_authenticated:
             return HttpResponseRedirect(reverse("login"))
         elif Game.objects.get(id=pk).developer != request.user:
@@ -191,8 +169,6 @@ class GameUpdateView(generic.UpdateView):
         return {"developer": self.request.user.id}
 
     def form_valid(self, form):
-        """Checks again that the user is the developer of the game and updates.
-        """
         if self.request.user != self.get_object().developer:
             return HttpResponse('Unauthorized', status=401)
         form.save()
@@ -208,8 +184,6 @@ def delete_game(request, pk):
 
 
 def payment_view(request):
-    """Displays the status of a payment.
-    """
     msg = "Your payment was a SUCCESS!!"
     if request.method == 'POST':
         game_id = request.POST.get("pid").split("-")[0]
@@ -247,14 +221,7 @@ def get_next_id(model_class):
     return (row[0] if row[0] else 0) + 1
 
 
-def example_game(request):
-    return render(request, "example_game.html")
-
-
 class TagCreateView(generic.FormView):
-    """Allows to create tags. This view is meant to be used in a popup
-       in game creation view, but can also be accessed by url.
-    """
     form_class = CreateTagForm
     template_name = "tag_create.html"
     success_url = "/tag/add"
@@ -271,8 +238,6 @@ class TagCreateView(generic.FormView):
 
 
 class RegistrationView(generic.FormView):
-    """Registration of a new user.
-    """
     form_class = CustomUserCreationForm
     template_name = "registration/signup.html"
     success_url = "/"
@@ -285,7 +250,7 @@ class RegistrationView(generic.FormView):
         send_mail(
             "Email Confirmation for Seed Store", 
             "Welcome to our website!", 
-            from_email="seedgamestore@outlook.com",  # Replace with your email
+            from_email="seedgamestore1@outlook.com",
             recipient_list=[user.email], 
             html_message='<p>Use this link to confirm your email: <a href="http://{}{}">http://{}{}</a></p>'.format(
                 self.request.META['HTTP_HOST'], 
@@ -308,9 +273,7 @@ def confirm_email(request, key):
 
 
 class ProfileView(generic.DetailView):
-    """Profile page with purchased games, and for developer stats on their
-       published games.
-    """
+    
     model = User
     template_name = "profile.html"
 
@@ -333,9 +296,7 @@ class ProfileView(generic.DetailView):
 
 @login_required
 def switch_to_developer(request):
-    """Allows a non-developer user to become a developer.
-    """
+    
     request.user.is_developer = True
     request.user.save()
     return HttpResponseRedirect(reverse("profile", kwargs={"pk": request.user.id}))
-    #return HttpResponseRedirect(reverse("profile", request.user.id))

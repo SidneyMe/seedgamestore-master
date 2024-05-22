@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import IndexView, RegistrationView, ProfileView, GameView, GameCreateView, TagCreateView, GameUpdateView, delete_game, payment_view, example_game, switch_to_developer, confirm_email
+from .views import IndexView, RegistrationView, ProfileView, GameView, GameCreateView, TagCreateView, GameUpdateView, delete_game, payment_view, switch_to_developer, confirm_email
 
 urlpatterns = [
     path('', IndexView.as_view(), name="index"),

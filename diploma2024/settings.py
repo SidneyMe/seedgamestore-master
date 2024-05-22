@@ -1,14 +1,3 @@
-"""
-Django settings for wsd2018project project on Heroku. For more info, see:
-https://github.com/heroku/heroku-django-template
-
-For more information on this file, see
-https://docs.djangoproject.com/en/5.0.4/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/5.0.4/ref/settings/
-"""
-
 import os
 import sys
 import platform
@@ -51,7 +40,6 @@ INSTALLED_APPS = [
     'bootstrapform',
     'cloudinary',
     'simple_email_confirmation',
-    'social_django',
     'font_awesome',
     'gamestore',
     'api',
@@ -67,7 +55,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'social_django.middleware.SocialAuthExceptionMiddleware'
 ]
 
 ROOT_URLCONF = 'diploma2024.urls'

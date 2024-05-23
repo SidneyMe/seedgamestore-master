@@ -8,16 +8,15 @@ from django.core.exceptions import ValidationError
 from django.forms import Form
 
 
-class PaymentForm(forms.ModelForm):
-    class Meta:
-        model = Payment
-        exclude = []
-        widgets = {
-            "user": forms.HiddenInput(),
-            "game": forms.HiddenInput()
-        }
+class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(label="Your email address")
+    is_developer = forms.BooleanField(label="Do you want to add your own games as a developer?", required=False)
 
-
+    class Meta(UserCreationForm.Meta):
+        model = get_user_model()
+        fields = ("username", "email")
+        
+        
 class CreateGameForm(forms.ModelForm):
     tags = AutoCompleteSelectMultipleField('tags', required=False, help_text="Begin typing to search tags")
 
@@ -35,15 +34,6 @@ class CreateTagForm(forms.ModelForm):
         fields = ["name"]
 
 
-class CustomUserCreationForm(UserCreationForm):
-    email = forms.EmailField(label="Your email address")
-    is_developer = forms.BooleanField(label="Do you want to add your own games as a developer?", required=False)
-
-    class Meta(UserCreationForm.Meta):
-        model = get_user_model()
-        fields = ("username", "email")
-
-
 class SearchForm(forms.Form):
     keywords = forms.CharField(label='Keywords', max_length=128, required=False, )
     tags = AutoCompleteSelectMultipleField('tags', label="Tags", help_text="Begin typing to search tags", required=False)
@@ -55,3 +45,12 @@ class SearchForm(forms.Form):
         if tags and not all(Tag.objects.filter(name=tag).exists() for tag in tags):
             raise ValidationError("One or more tags are invalid.")
         return tags
+    
+class PaymentForm(forms.ModelForm):
+    class Meta:
+        model = Payment
+        exclude = []
+        widgets = {
+            "user": forms.HiddenInput(),
+            "game": forms.HiddenInput()
+        }

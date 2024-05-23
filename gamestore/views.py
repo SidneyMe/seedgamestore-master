@@ -131,7 +131,6 @@ class GameCreateView(generic.FormView):
     def get_initial(self):
         return {"developer": self.request.user.id}
 
-
     def form_valid(self, form):
         if (not self.request.user.is_developer) or form.cleaned_data["developer"] != self.request.user:
             return HttpResponse('Unauthorized', status=401)
@@ -140,6 +139,7 @@ class GameCreateView(generic.FormView):
             return self.form_invalid(form)
         game = form.save()
         Payment.objects.get_or_create(user=self.request.user, game=game, amount=0)
+        return HttpResponseRedirect(self.get_success_url())  # Add this line
 
 
 class GameUpdateView(generic.UpdateView):

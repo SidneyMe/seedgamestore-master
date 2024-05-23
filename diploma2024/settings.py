@@ -1,28 +1,18 @@
 import os
 import sys
-import platform
 from pathlib import Path
 import dj_database_url
-import django_heroku
 import cloudinary
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0.4/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-# this is same for everyone – you should probably alter it!
 SECRET_KEY = "yh8w0vp&u@yh2z@q8elg44bsx#ze18(pqrn#ojah9pn@kb(qp8"
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = (sys.argv[1] == 'runserver')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -31,9 +21,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.sites',
-    # Disable Django's own staticfiles handling in favour of WhiteNoise, for
-    # greater consistency between gunicorn and `./manage.py runserver`. See:
-    # http://whitenoise.evans.io/en/stable/django.html#using-whitenoise-in-development
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'ajax_select',
@@ -78,11 +65,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'diploma2024.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.0.4/ref/settings/#databases
-
-
 DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -105,40 +87,27 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.0.4/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Europe/Kiev'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# Change 'default' database configuration with $DATABASE_URL.
 DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
 
-# Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# Rerdirect all traffic to HTTPS on server
 SECURE_SSL_REDIRECT = (sys.argv[1] != 'runserver')
 
-# Allow all host headers
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'django-reinhardt.herokuapp.com']
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0.4/howto/static-files/
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 
-# Extra places for collectstatic to find static files.
 STATICFILES_DIRS = [
     os.path.join(PROJECT_ROOT, 'static'),
 ]
 
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
@@ -148,7 +117,6 @@ MEDIAFILES_DIRS = [
     os.path.join(PROJECT_ROOT, 'media'),
 ]
 
-# Cloudinary configs (For media uploads)
 cloudinary.config(
   cloud_name="dzoczhaes",
   api_key="888892614347162",
@@ -168,9 +136,7 @@ DEFAULT_FROM_EMAIL = 'seedgamestore1@outlook.com'
 
 SITE_ID = 5
 
-# django-ajax-selects settings
 AJAX_SELECT_BOOTSTRAP = False
 
-#stripe payment
 STRIPE_PUBLIC_KEY = 'pk_test_51PFaOr02IzE0WCScMA1I8v2wek3qjdM3Il6rLE4IxkHT0dBLbWqZUjaPa1A9ZjR3Svtezgt0vFCSW8OoQZi7rYGq00U2dmWFTJ'
 STRIPE_SECRET_KEY = 'sk_test_51PFaOr02IzE0WCScZP8sMoIAdWGkPIYUHN1iqBTRI5llhTfLKew7vaK6Xw9U4j8wSRe90tWOycn720YPQXLev6BF00Yf4h57T9'

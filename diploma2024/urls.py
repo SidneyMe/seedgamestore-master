@@ -19,7 +19,6 @@ urlpatterns = [
     path('', include('gamestore.urls')),
     path('api/', include('api.urls')),
     path('ajax_select/', include(ajax_select_urls)),
-    path('privacy_policy', lambda _: render("privacy_policy.html"), name="privacy_policy")
 ]
 
 urlpatterns += [

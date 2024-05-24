@@ -3,7 +3,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
-from simple_email_confirmation.models import SimpleEmailConfirmationUserMixin, EmailAddress, EmailAddressManager
+from simple_email_confirmation.models import SimpleEmailConfirmationUserMixin, EmailAddress
 
 
 class User(SimpleEmailConfirmationUserMixin, AbstractUser):
@@ -42,7 +42,6 @@ class Game(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.id:
-            # If the object is created, its creation date is set
             self.created = timezone.now()
         return super(Game, self).save(*args, **kwargs)
 

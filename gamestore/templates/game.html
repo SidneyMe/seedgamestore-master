@@ -6,7 +6,7 @@
     <meta property="og:url" content="{{ request.get_full_path }}">
     <meta property="og:type" content="website">
     <meta property="og:title" content="{{ object.name }}">
-    <meta property="og:description" content="Check out or add JS games on Django-Reinhardt's Gamestore">
+    <meta property="og:description" content="Перевірте або додайте Django-ігри до Gamestore">
     <meta property="og:image" content="{{ object.cover.url }}">
 {% endblock %}
 
@@ -21,12 +21,12 @@
                                 <h2 class="panel-title col-xs-6 col-sm-8 col-md-9">{{ game.name }}</h2>
                                 <div class="col-xs-6 col-sm-4 col-md-3" style="padding: 0;">
                                     <h2 class="{% if game.developer == user %}panel-title col-xs-12 col-sm-6{% else %}panel-title col-xs-12{% endif %}">
-                                        {% concat 'Play today ' game.name ' only for $' game.price|stringformat:"s" as tweet_text %}
-                                        <a href="https://twitter.com/intent/tweet?text={{ tweet_text|urlencode }}&url={{ 'http://127.0.0.1:8000'|add:request.get_full_path|urlencode }}" target="_blank" style="text-align: right;"><span class="glyphicon glyphicon-send" style="margin-right: 0.5em;"></span> Share</a>
+                                        {% concat 'Грайте сьогодні ' game.name ' лише за $' game.price|stringformat:"s" as tweet_text %}
+                                        <a href="https://twitter.com/intent/tweet?text={{ tweet_text|urlencode }}&url={{ 'http://127.0.0.1:8000'|add:request.get_full_path|urlencode }}" target="_blank" style="text-align: right;"><span class="glyphicon glyphicon-send" style="margin-right: 0.5em;"></span> Поширити</a>
                                     </h2>
                                     
                                     {% if game.developer == user %}
-                                        <h2 class="panel-title col-xs-12 col-sm-6"><a href="{% url "game_update" game.id %}" style="text-align: right;"><span class="glyphicon glyphicon-edit" style="margin-right: 0.5em;"></span> Edit </a></h2>
+                                        <h2 class="panel-title col-xs-12 col-sm-6"><a href="{% url "game_update" game.id %}" style="text-align: right;"><span class="glyphicon glyphicon-edit" style="margin-right: 0.1em;"></span> Редагувати </a></h2>
                                     {% endif %}
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="panel-footer">
-                            <h4>Developer: {{ game.developer }}</h4>
+                            <h4>Розробник: {{ game.developer }}</h4>
                         </div>
                     </div>
                 {% endwith %}

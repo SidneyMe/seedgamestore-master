@@ -2,7 +2,7 @@
 {% load static %}
 {% load bootstrap %}
 
-{% block title %}Add Game |Seed Game Store{% endblock %}
+{% block title %}Додати гру | Seed Game Store{% endblock %}
 
 {% block body %}
     {{ form.media }}
@@ -12,8 +12,8 @@
                 <form action="" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form|bootstrap }}
-                    <a href="" class="btn btn-default" data-toggle="modal" data-target="#createTag">Create new tags</a>
-                    <button class="btn btn-primary">Add Game</button>
+                    <a href="" class="btn btn-default" data-toggle="modal" data-target="#createTag">Створити нові теги</a>
+                    <button class="btn btn-primary">Додати гру</button>
                 </form>
             </div>
         </div>
@@ -26,13 +26,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Create new tags</h4>
+                    <h4 class="modal-title">Створити нові теги</h4>
                 </div>
                 <div class="modal-body">
                     <iframe src="{% url "add_tag" %}" frameborder="0" width="100%"></iframe>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
                 </div>
             </div>
         </div>

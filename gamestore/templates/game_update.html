@@ -2,46 +2,46 @@
 {% load static %}
 {% load bootstrap %}
 
-{% block title %}Update Game |Seed Game Store{% endblock %}
+{% block title %}Оновити гру | Seed Game Store{% endblock %}
 
 {% block body %}
-    {{ form.media }}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3 card-bg">
-                <form action="" method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {{ form|bootstrap }}
-                    <a href="" class="btn btn-default" data-toggle="modal" data-target="#createTag">Create new tags</a>
-                    <button class="btn btn-primary">Update game</button>
-                </form>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <a style="margin-top: 10px;" class="btn alert alert-danger" href="{% url "game_delete" game.id %}">Delete Game</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div id="createTag" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Create new tags</h4>
-          </div>
-          <div class="modal-body">
-            <iframe src="{% url "add_tag" %}" frameborder="0" width="100%"></iframe>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-
+  {{ form.media }}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3 card-bg">
+        <form action="" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form|bootstrap }}
+          <a href="" class="btn btn-default" data-toggle="modal" data-target="#createTag">Створити нові теги</a>
+          <button class="btn btn-primary">Оновити гру</button>
+        </form>
       </div>
     </div>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <a style="margin-top: 10px;" class="btn alert alert-danger" href="{% url "game_delete" game.id %}">Видалити гру</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="createTag" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">Створити нові теги</h4>
+      </div>
+      <div class="modal-body">
+      <iframe src="{% url "add_tag" %}" frameborder="0" width="100%"></iframe>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
+      </div>
+    </div>
+
+    </div>
+  </div>
 {% endblock %}

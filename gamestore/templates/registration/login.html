@@ -1,8 +1,7 @@
 {% extends "base.html" %}
+
 {% load bootstrap %}
-
-{% block title %}Login | Seed Game Store{% endblock %}
-
+{% block title %}Увійти | Seed Game Store{% endblock %}
 {% block body %}
     <div class="container">
         <div class="row">
@@ -11,11 +10,11 @@
                     {% csrf_token %}
                     <input type="hidden" name="next" value="{{ next }}">
                     {{ form|bootstrap }}
-                    <button class="btn btn-primary">Login</button>
-                    <a href="{% url 'password-reset' %}" class="btn btn-primary">Forgot Password?</a>
+                    <button class="btn btn-primary">Увійти</button>
+                    <a href="{% url 'password-reset' %}" class="btn btn-primary">Забули пароль?</a>
                 </form>
                 <div style="margin: 20px 0;" class="row">
-                    <p>Don't have an account? <a href="{% url 'signup' %}">Login</a></p>
+                    <p>Немає облікового запису? <a href="{% url 'signup' %}">Зареєструватися</a></p>
                 </div>
             </div>
         </div>

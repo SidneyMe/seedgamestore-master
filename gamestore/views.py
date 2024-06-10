@@ -4,8 +4,8 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
 from hashlib import md5
-from .forms import CustomUserCreationForm, CreateGameForm, SearchForm, CreateTagForm
-from .models import User, Game, Payment
+from .forms import CustomUserCreationForm, CreateGameForm, SearchForm, CreateTagForm, CustomAuthenticationForm
+from .models import User, Game, Payment, Tag
 from django.db import connection
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
@@ -13,9 +13,14 @@ from django.contrib import messages
 from simple_email_confirmation.models import EmailAddress
 from django.contrib.auth import logout
 from django.shortcuts import redirect
+from django.contrib.auth.views import LoginView
 
 
 SQLITESAFE = False
+
+
+class CustomLoginView(LoginView):
+    form_class = CustomAuthenticationForm   
 
 
 class IndexView(generic.ListView):
@@ -111,7 +116,7 @@ class GameView(generic.DetailView):
         if possessed:
             return super().get(request, *args, **kwargs)
         else:
-            return HttpResponseNotFound("This game doesn't exist or you don't own it.")
+            return HttpResponseNotFound("Ця гра не існує або ви не є її власником.")
 
 
 class GameCreateView(generic.FormView):
@@ -133,13 +138,13 @@ class GameCreateView(generic.FormView):
 
     def form_valid(self, form):
         if (not self.request.user.is_developer) or form.cleaned_data["developer"] != self.request.user:
-            return HttpResponse('Unauthorized', status=401)
+            return HttpResponse('Несанкціоновано', status=401)
         if form.cleaned_data["price"] > 1000:
-            form.add_error('price', 'The price of the game cannot exceed 1000 USD.')
+            form.add_error('price', 'Ціна гри не може перевищувати 1000 доларів США.')
             return self.form_invalid(form)
         game = form.save()
         Payment.objects.get_or_create(user=self.request.user, game=game, amount=0)
-        return HttpResponseRedirect(self.get_success_url())  # Add this line
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class GameUpdateView(generic.UpdateView):
@@ -153,7 +158,7 @@ class GameUpdateView(generic.UpdateView):
         if not request.user.is_authenticated:
             return HttpResponseRedirect(reverse("login"))
         elif Game.objects.get(id=pk).developer != request.user:
-            return HttpResponse('Unauthorized', status=401)
+            return HttpResponse('Несанкціоновано', status=401)
         else:
             return super().get(request, *args, **kwargs)
 
@@ -167,7 +172,7 @@ class GameUpdateView(generic.UpdateView):
 
     def form_valid(self, form):
         if self.request.user != self.get_object().developer:
-            return HttpResponse('Unauthorized', status=401)
+            return HttpResponse('Несанкціоновано', status=401)
         form.save()
         return super().form_valid(form)
 
@@ -181,23 +186,23 @@ def delete_game(request, pk):
 
 
 def payment_view(request):
-    msg = "Your payment was a SUCCESS!!"
+    msg = "Ваш платіж був УСПІШНИМ!!"
     if request.method == 'POST':
         game_id = request.POST.get("pid").split("-")[0]
         game = Game.objects.get(id=game_id)
         Payment.objects.create(user=request.user, game=game, amount=game.price)
-        msg = "Your payment was a SUCCESS!"
+        msg = "Ваш платіж був УСПІШНИМ!"
         return redirect('payment_success')
     elif request.GET.get("result", "error") == "success":
         if "success" in request.path:
             game_id = request.GET["pid"].split("-")[0]
             game = Game.objects.get(id=game_id)
             Payment.objects.create(user=request.user, game=game, amount=game.price)
-            msg = "Your payment was a SUCCESS!"
+            msg = "Ваш платіж був УСПІШНИМ!"
     elif "cancel" in request.path:
-        msg = "Your payment was CANCELED!"
+        msg = "Ваш платіж був СКАСОВАНИМ!"
     elif "error" in request.path:
-        msg = "Your payment had an ERROR!"
+        msg = "Ваш платіж мав ПОМИЛКУ!"
     return render(request, "payment.html", {"msg": msg})
 
 
@@ -220,28 +225,36 @@ class TagCreateView(generic.FormView):
             return HttpResponseRedirect(reverse("login"))
         else:
             return super().get(request, *args, **kwargs)
-
+ 
     def form_valid(self, form):
-        form.save()
+        print("Form is valid")
+        print("Form data:", form.cleaned_data)
+        tag = form.save()
+        print("Saved tag:", tag)
         return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        print("Form is not valid")
+        print("Form errors:", form.errors)
+        return super().form_invalid(form)
 
 
 class RegistrationView(generic.FormView):
     form_class = CustomUserCreationForm
     template_name = "registration/signup.html"
     success_url = "/"
-
+    
     def form_valid(self, form):
         form.save()
         user = authenticate(username=form.cleaned_data["username"], password=form.cleaned_data["password1"])
         login(self.request, user)
         link = reverse("confirm_email", kwargs={"key": user.confirmation_key})
         send_mail(
-            "Email Confirmation for Seed Store", 
-            "Welcome to our website!", 
+            "Підтвердження електронної пошти для Seed Store", 
+            "Ласкаво просимо на наш веб-сайт!", 
             from_email="seedgamestore1@outlook.com",
             recipient_list=[user.email], 
-            html_message='<p>Use this link to confirm your email: <a href="http://{}{}">http://{}{}</a></p>'.format(
+            html_message='<p>Використовуйте це посилання для підтвердження вашої електронної пошти: <a href="http://{}{}">http://{}{}</a></p>'.format(
                 self.request.META['HTTP_HOST'], 
                 link, 
                 self.request.META['HTTP_HOST'], 
@@ -257,7 +270,7 @@ class RegistrationView(generic.FormView):
 def confirm_email(request, key):
     email = EmailAddress.objects.get(key=key)
     email.user.confirm_email(key)
-    messages.add_message(request, messages.INFO, "Email verified!")
+    messages.add_message(request, messages.INFO, "Електронна пошта підтверджена!")
     return HttpResponseRedirect("/")
 
 

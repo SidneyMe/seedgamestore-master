@@ -35,15 +35,10 @@ class Game(models.Model):
     cover = cloudinary_models.CloudinaryField("cover", blank=True)
     price = models.IntegerField(default=0)
     tags = models.ManyToManyField(Tag, blank=True, verbose_name="Tags")
-    created = models.DateTimeField(editable=False)
+    created = models.DateTimeField(auto_now_add=True)
 
     def get_absolute_url(self):
         return reverse('game', args=[str(self.id)])
-
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.created = timezone.now()
-        return super(Game, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name

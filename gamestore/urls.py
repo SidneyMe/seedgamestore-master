@@ -1,9 +1,10 @@
-from django.urls import path
-from .views import IndexView, RegistrationView, ProfileView, GameView, GameCreateView, TagCreateView, GameUpdateView, delete_game, payment_view, switch_to_developer, confirm_email
+from django.urls import path, include
+from .views import IndexView, RegistrationView, ProfileView, GameView, GameCreateView, TagCreateView, GameUpdateView, CustomLoginView, delete_game, payment_view, switch_to_developer, confirm_email
 
 urlpatterns = [
     path('', IndexView.as_view(), name="index"),
     path('signup', RegistrationView.as_view(), name="signup"),
+    path('login/', CustomLoginView.as_view(), name='login'),
     path('activate/<str:key>', confirm_email, name="confirm_email"),
     path('profile/<int:pk>', ProfileView.as_view(), name="profile"),
     path('profile/switch-to-developer', switch_to_developer, name="switch_to_developer"),

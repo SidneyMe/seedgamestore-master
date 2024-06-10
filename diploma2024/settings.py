@@ -93,6 +93,10 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
+
 DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

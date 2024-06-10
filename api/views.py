@@ -1,13 +1,7 @@
 from django.http import JsonResponse, HttpResponseForbidden
-from django.shortcuts import get_object_or_404
 from django.core import serializers
-from django.contrib.auth.decorators import login_required
 from gamestore.models import Game, User
 from simple_email_confirmation.models import EmailAddress
-import json
-
-
-# REST API
 
 def check_token(token):
     try:

@@ -4,7 +4,6 @@ from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.views.static import serve
 from ajax_select import urls as ajax_select_urls
-from django.shortcuts import render
 
 urlpatterns = [
     path('admin/', admin.site.urls),

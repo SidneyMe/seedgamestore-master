@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'gamestore',
     'api',
     'django_social_share',
+    'django_select2',
 ]
 
 MIDDLEWARE = [

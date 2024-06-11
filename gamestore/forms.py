@@ -3,7 +3,18 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model
 from gamestore.models import Payment, Game, Tag
 from django.core.validators import MinValueValidator
-from ajax_select.fields import AutoCompleteSelectMultipleField
+from django_select2.forms import Select2MultipleWidget
+
+class SearchForm(forms.Form):
+    keywords = forms.CharField(label='Ключові слова', max_length=128, required=False, )
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
+        widget=Select2MultipleWidget,
+        required=False,
+        help_text="Почніть вводити для пошуку тегів"
+    )
+    maxprice = forms.IntegerField(label="Максимальна ціна", validators=[MinValueValidator(0)], required=False)
+    sortby = forms.ChoiceField(label="Сортувати за", choices=[("recent", "Найновіші"), ("cheapest", "Найдешевша ціна"), ("alpha", "Алфавітний порядок")], required=False)
 
 
 class CustomAuthenticationForm(AuthenticationForm):
@@ -28,7 +39,12 @@ class CreateGameForm(forms.ModelForm):
     url = forms.URLField(label="Посилання")
     cover = forms.FileField(label="Обкладинка")
     price = forms.DecimalField(label="Ціна")
-    tags = AutoCompleteSelectMultipleField('tags', required=False, help_text="Почніть вводити для пошуку тегів", label="Теги")
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
+        widget=Select2MultipleWidget,
+        required=False,
+        help_text="Почніть вводити для пошуку тегів"
+    )
 
     class Meta:
         model = Game
@@ -48,7 +64,12 @@ class CreateTagForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     keywords = forms.CharField(label='Ключові слова', max_length=128, required=False, )
-    tags = AutoCompleteSelectMultipleField('tags', required=False, help_text="Почніть вводити для пошуку тегів")
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
+        widget=Select2MultipleWidget,
+        required=False,
+        help_text="Почніть вводити для пошуку тегів"
+    )
     maxprice = forms.IntegerField(label="Максимальна ціна", validators=[MinValueValidator(0)], required=False)
     sortby = forms.ChoiceField(label="Сортувати за", choices=[("recent", "Найновіші"), ("cheapest", "Найдешевша ціна"), ("alpha", "Алфавітний порядок")], required=False)
  

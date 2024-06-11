@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.views import generic
 from hashlib import md5
 from .forms import CustomUserCreationForm, CreateGameForm, SearchForm, CreateTagForm, CustomAuthenticationForm
-from .models import User, Game, Payment, Tag
+from .models import User, Game, Payment
 from django.db import connection
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
@@ -231,7 +231,7 @@ class TagCreateView(generic.FormView):
         print("Form data:", form.cleaned_data)
         tag = form.save()
         print("Saved tag:", tag)
-        return super().form_valid(form)
+        return HttpResponse("tag created")
     
     def form_invalid(self, form):
         print("Form is not valid")

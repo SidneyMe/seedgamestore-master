@@ -14,5 +14,5 @@ urlpatterns = [
     path('game/delete/<int:pk>', delete_game, name="game_delete"),
     path('tag/add', TagCreateView.as_view(), name="add_tag"),
     path('charge/', payment_view, name="charge"),
-    path('payment/success', payment_view, name="payment_success"),
+    path('payment', payment_view, name="payment_success"),
 ]

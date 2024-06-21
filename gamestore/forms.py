@@ -6,16 +6,34 @@ from django.core.validators import MinValueValidator
 from django_select2.forms import Select2MultipleWidget
 
 class SearchForm(forms.Form):
-    keywords = forms.CharField(label='Ключові слова', max_length=128, required=False, )
+    keywords = forms.CharField(
+        label='Ключові слова', 
+        max_length=128, 
+        required=False,
+        widget=forms.TextInput(attrs={'id': 'id_keywords'})
+    )
     tags = forms.ModelMultipleChoiceField(
         queryset=Tag.objects.all(),
-        widget=Select2MultipleWidget,
+        widget=Select2MultipleWidget(attrs={'id': 'id_tags'}),
         required=False,
         help_text="Почніть вводити для пошуку тегів"
     )
-    maxprice = forms.IntegerField(label="Максимальна ціна", validators=[MinValueValidator(0)], required=False)
-    sortby = forms.ChoiceField(label="Сортувати за", choices=[("recent", "Найновіші"), ("cheapest", "Найдешевша ціна"), ("alpha", "Алфавітний порядок")], required=False)
-
+    maxprice = forms.IntegerField(
+        label="Максимальна ціна", 
+        validators=[MinValueValidator(0)], 
+        required=False,
+        widget=forms.NumberInput(attrs={'id': 'id_maxprice'})
+    )
+    sortby = forms.ChoiceField(
+        label="Сортувати за", 
+        choices=[
+            ("recent", "Найновіші"), 
+            ("cheapest", "Найдешевша ціна"), 
+            ("alpha", "Алфавітний порядок")
+        ], 
+        required=False,
+        widget=forms.Select(attrs={'id': 'id_sortby'})
+    )
 
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(label="Ім'я користувача")
@@ -60,18 +78,6 @@ class CreateTagForm(forms.ModelForm):
     class Meta:
         model = Tag
         fields = ["name"]
-
-
-class SearchForm(forms.Form):
-    keywords = forms.CharField(label='Ключові слова', max_length=128, required=False, )
-    tags = forms.ModelMultipleChoiceField(
-        queryset=Tag.objects.all(),
-        widget=Select2MultipleWidget,
-        required=False,
-        help_text="Почніть вводити для пошуку тегів"
-    )
-    maxprice = forms.IntegerField(label="Максимальна ціна", validators=[MinValueValidator(0)], required=False)
-    sortby = forms.ChoiceField(label="Сортувати за", choices=[("recent", "Найновіші"), ("cheapest", "Найдешевша ціна"), ("alpha", "Алфавітний порядок")], required=False)
  
 
 class PaymentForm(forms.ModelForm):

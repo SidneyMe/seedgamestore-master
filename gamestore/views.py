@@ -26,43 +26,42 @@ class CustomLoginView(LoginView):
 class IndexView(generic.ListView):
     
     model = Game
-    template_name = "index.html"
+    template_name = 'index.html'
+    context_object_name = 'object_list'
     paginate_by = 12
 
-
     def get_queryset(self):
-
         qs = Game.objects.all()
+        form = SearchForm(self.request.GET)
 
-        try:
-            max_price = int(self.request.GET.get("maxprice"))
-        except:
-            max_price = -1
-        if max_price >= 0:
-            qs = qs.filter(price__lte=max_price)
+        if form.is_valid():
+            max_price = form.cleaned_data.get('maxprice')
+            if max_price is not None:
+                qs = qs.filter(price__lte=max_price)
 
-        keywords = self.request.GET.get("keywords", "").split(" ")
-        for word in keywords:
-            qs = qs.filter(name__icontains=word)
+            keywords = form.cleaned_data.get('keywords')
+            if keywords:
+                for word in keywords.split():
+                    qs = qs.filter(name__icontains=word)
 
-        tags = self.request.GET.get("tags", "")
-        if len(tags) > 2:
-            try:
-                tags_id = list(map(int, tags[1:-1].split("|")))
-                qs = qs.filter(tags__in=tags_id)
-            except:
-                pass
+            tags = form.cleaned_data.get('tags')
+            if tags:
+                qs = qs.filter(tags__in=tags)
 
-        qs = qs.distinct()
-        sortby = self.request.GET.get("sortby", "recent")
-        if sortby == "recent":
-            qs = qs.order_by("-created", "name")
-        elif sortby == "cheapest":
-            qs = qs.order_by("price", "name")
-        else:
-            qs = qs.order_by("name")
+            sortby = form.cleaned_data.get('sortby')
+            if sortby == 'recent':
+                qs = qs.order_by('-created', 'name')
+            elif sortby == 'cheapest':
+                qs = qs.order_by('price', 'name')
+            elif sortby == 'alpha':
+                qs = qs.order_by('name')
+        
+        return qs.distinct()
 
-        return qs
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = SearchForm(self.request.GET)
+        return context
 
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -252,7 +251,7 @@ class RegistrationView(generic.FormView):
         send_mail(
             "Підтвердження електронної пошти для Seed Store", 
             "Ласкаво просимо на наш веб-сайт!", 
-            from_email="seedgamestore1@outlook.com",
+            from_email="seedgamestore2@outlook.com",
             recipient_list=[user.email], 
             html_message='<p>Використовуйте це посилання для підтвердження вашої електронної пошти: <a href="http://{}{}">http://{}{}</a></p>'.format(
                 self.request.META['HTTP_HOST'], 

@@ -25,6 +25,7 @@
             </div>
         </div>
     </div>
+    
     {% if messages %}
         <div class="col-md-12">
             {% for message in messages %}
@@ -32,13 +33,14 @@
             {% endfor %}
         </div>
     {% endif %}
+    
     <div id="games" class="container-fluid">
         <div class="row">
             {% for game in object_list %}
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                     <div class="panel panel-primary">
                         <div class="panel-heading" style="overflow-x: hidden;">
-                            <h2 class="panel-title" style="white-space: nowrap;">{% if game.possessed %}<a href="{% url "game" game.id %}">{% endif %}{{ game.name}}{% if game.possessed %}</a>{% endif %}</h2>  
+                            <h2 class="panel-title" style="white-space: nowrap;">{% if game.possessed %}<a href="{% url "game" game.id %}">{% endif %}{{ game.name }}{% if game.possessed %}</a>{% endif %}</h2>  
                         </div>
                         <div class="panel-body">
                             <a href="{% url "game" game.id %}">
@@ -54,7 +56,7 @@
                                 <div style="margin: 10px 0 0 0; overflow-x: hidden;">
                                     <div style="width: 10000%;">
                                     {% for tag in game.gtags %}
-                                        <a class="gametag" href="/?tags=|{{ tag.pk }}|">{{ tag.name }}</a>
+                                        <a class="gametag">{{ tag.name }}</a>
                                     {% endfor %}
                                     </div>
                                 </div>
@@ -66,26 +68,23 @@
                                     <div style="float: right; margin-left: 10px;">
                                         {% if request.user.is_authenticated %}
                                             {% if game.possessed %}
-                                                <a href="{% url "game" game.id %}" class="btn btn-primary" >ГРАТИ</a>
+                                                <a href="{% url "game" game.id %}" class="btn btn-primary">ГРАТИ</a>
                                             {% else %}
                                                 <form action="{% url 'charge' %}" method="POST">
                                                     {% csrf_token %}
                                                     <input type="hidden" name="pid" value="{{ game.next_payment_id }}">
                                                     <input type="hidden" name="sid" value="g056">
-                                                    <input type="hidden" name="success_url"
-                                                        value="//{{ request.get_host }}{% url "payment_success" %}">
-                                                    <input type="hidden" name="checksum"
-                                                        value="{{ game.checksum }}">
+                                                    <input type="hidden" name="success_url" value="//{{ request.get_host }}{% url "payment_success" %}">
+                                                    <input type="hidden" name="checksum" value="{{ game.checksum }}">
                                                     <input type="hidden" name="amount" value="{{ game.price }}">
-                                                    <button type="submit" class="btn btn-primary" >КУПИТИ ЗА {{ game.price }}$</button>
+                                                    <button type="submit" class="btn btn-primary">КУПИТИ ЗА {{ game.price }}$</button>
                                                 </form>
                                             {% endif %}
                                         {% else %}
-                                            <a href="{% url "login" %}" class="btn btn-primary" >КУПИТИ ЗА {{ game.price }}$</a>
+                                            <a href="{% url "login" %}" class="btn btn-primary">КУПИТИ ЗА {{ game.price }}$</a>
                                         {% endif %}
                                     </div>
-
-                                    <div >
+                                    <div>
                                         <div style="overflow-x: hidden;">
                                             <h4 style="white-space: nowrap;">від {{ game.developer }}</h4>
                                         </div>
@@ -98,29 +97,30 @@
             {% endfor %}
         </div>
     </div>
+
     {% if is_paginated %}
     <div class="container">
         <div class="centered text-center">
         <ul class="pagination">
-          {% if page_obj.has_previous %}
-              <li><a href="?{% url_replace request 'page' page_obj.previous_page_number %}">&laquo;</a></li>
-          {% else %}
-              <li class="disabled"><span>&laquo;</span></li>
-          {% endif %}
-          {% for i in custom_range %}
-              {% if page_obj.number == i %}
-                  <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-              {% else %}
-                  <li><a href="?{% url_replace request 'page' i %}">{{ i }}</a></li>
-              {% endif %}
-          {% endfor %}
-          {% if page_obj.has_next %}
-              <li><a href="?{% url_replace request 'page' page_obj.next_page_number %}">&raquo;</a></li>
-          {% else %}
-              <li class="disabled"><span>&raquo;</span></li>
-          {% endif %}
-      </ul>
-    </div>
+            {% if page_obj.has_previous %}
+                <li><a href="?{% url_replace request 'page' page_obj.previous_page_number %}">&laquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+            {% for i in custom_range %}
+                {% if page_obj.number == i %}
+                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                    <li><a href="?{% url_replace request 'page' i %}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li><a href="?{% url_replace request 'page' page_obj.next_page_number %}">&raquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+        </ul>
+        </div>
     </div>
     {% endif %}
 {% endblock %}

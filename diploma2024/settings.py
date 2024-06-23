@@ -3,8 +3,11 @@ import sys
 from pathlib import Path
 import dj_database_url
 import cloudinary
+from dotenv import load_dotenv
 
 #.\myenv\Scripts\activate
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -124,9 +127,9 @@ MEDIAFILES_DIRS = [
 ]
 
 cloudinary.config(
-  cloud_name="dzoczhaes",
-  api_key="888892614347162",
-  api_secret="dAib0A3BEzedwhW5IggWoPuKDIA"
+  cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+  api_key=os.getenv("CLOUDINARY_API_KEY"),
+  api_secret=os.getenv("CLOUDINARY_API_SECRET")
 )
 
 LOGIN_REDIRECT_URL = "/"
@@ -136,13 +139,13 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp-mail.outlook.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'seedgamestore2@outlook.com' 
-EMAIL_HOST_PASSWORD = 'Diploma2024$'
-DEFAULT_FROM_EMAIL = 'seedgamestore2@outlook.com'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER')
 
 SITE_ID = 5
 
 AJAX_SELECT_BOOTSTRAP = False
 
-STRIPE_PUBLIC_KEY = 'pk_test_51PFaOr02IzE0WCScMA1I8v2wek3qjdM3Il6rLE4IxkHT0dBLbWqZUjaPa1A9ZjR3Svtezgt0vFCSW8OoQZi7rYGq00U2dmWFTJ'
-STRIPE_SECRET_KEY = 'sk_test_51PFaOr02IzE0WCScZP8sMoIAdWGkPIYUHN1iqBTRI5llhTfLKew7vaK6Xw9U4j8wSRe90tWOycn720YPQXLev6BF00Yf4h57T9'
+STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')

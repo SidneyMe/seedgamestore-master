@@ -12,7 +12,7 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-SECRET_KEY = "yh8w0vp&u@yh2z@q8elg44bsx#ze18(pqrn#ojah9pn@kb(qp8"
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = (sys.argv[1] == 'runserver')
 

@@ -26,4 +26,5 @@ COPY . /code/
 
 EXPOSE 8000
 
-CMD [ "python3","manage.py","runserver", "0.0.0.0:8000", "gunicorn", "--bind"]
+# Use Gunicorn to serve the application
+CMD ["gunicorn", "diploma2024.wsgi:application", "--bind", "0.0.0.0:8000"]

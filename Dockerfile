@@ -1,7 +1,7 @@
 # Use an official Python runtime as a parent image
 FROM python:3.12.3
 
-# Set environment varibles
+# Set environment variables
 ENV PYTHONUNBUFFERED 1
 
 # Set work directory
@@ -10,6 +10,9 @@ COPY . /code
 
 # Install dependencies
 RUN pip install -r requirements.txt
+
+RUN python3 manage.py makemigrations
+RUN python3 manage.py migrate
 
 # Copy project
 COPY . /code/

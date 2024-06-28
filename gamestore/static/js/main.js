@@ -13,3 +13,9 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+$(document).ready(function() {
+    $('#id_tags').select2({
+        placeholder: "Select tags",
+        allowClear: true
+    });
+});

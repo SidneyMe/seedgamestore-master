@@ -3,6 +3,7 @@ FROM python:3.12.3
 
 # Set environment variables
 ENV PYTHONUNBUFFERED 1
+ENV DJANGO_DATABASE_URL sqlite:///code/db.sqlite3
 
 # Set work directory
 WORKDIR /code

@@ -1,5 +1,16 @@
 version: '3.8'
 services:
   web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
     environment:
-      - RUNNING_IN_DOCKER=True
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - RUNNING_IN_DOCKER=${RUNNING_IN_DOCKER}

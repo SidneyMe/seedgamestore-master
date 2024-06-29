@@ -6,22 +6,27 @@ import platform
 import cloudinary
 from dotenv import load_dotenv
 
-#.\myenv\Scripts\activate
-
+# Load environment variables from .env file
 load_dotenv()
 
+# Set CSRF cookie settings
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
 
+# Define the base directory and project root
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
+# Get the secret key from environment variable
 SECRET_KEY = os.getenv('SECRET_KEY')
 
+# Set debug mode based on command line argument
 DEBUG = (sys.argv[1] == 'runserver')
 
+# Set the default auto field for models
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# List of installed apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,6 +47,7 @@ INSTALLED_APPS = [
     'django_select2',
 ]
 
+# List of middleware classes
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -53,8 +59,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# Root URL configuration
 ROOT_URLCONF = 'diploma2024.urls'
 
+# Template settings
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -72,16 +80,23 @@ TEMPLATES = [
     },
 ]
 
+# WSGI application
 WSGI_APPLICATION = 'diploma2024.wsgi.application'
 
-if platform.system() == "Windows":
-    DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
-            }
-        }
-else:
+# Database settings
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'MySQL80',
+        'USER': 'root',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+}
+
+# Override for Doker
+if os.getenv('RUNNING_IN_DOCKER') == 'True':
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -93,6 +108,7 @@ else:
     }
 }
 
+# Password validation settings
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -108,24 +124,33 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Language settings
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Europe/Kiev'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+# X-Frame-Options header settings
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
+# Cross-site sharing allowed methods
 XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
 
-DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
+# Update DATABASES settings if DATABASE_URL environment variable is present
+if 'DATABASE_URL' in os.environ:
+    DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
 
+# Secure proxy SSL header settings
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+# Secure SSL redirect settings
 SECURE_SSL_REDIRECT = (sys.argv[1] != 'runserver')
 
+# Allowed hosts
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'seedgamestore.up.railway.app']
 
+# Static files settings
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 
@@ -135,6 +160,7 @@ STATICFILES_DIRS = [
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Media files settings
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 MEDIA_URL = '/media/'
 
@@ -142,15 +168,20 @@ MEDIAFILES_DIRS = [
     os.path.join(PROJECT_ROOT, 'media'),
 ]
 
+# Cloudinary configuration
 cloudinary.config(
   cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
   api_key=os.getenv("CLOUDINARY_API_KEY"),
   api_secret=os.getenv("CLOUDINARY_API_SECRET")
 )
 
+# Login redirect URL
 LOGIN_REDIRECT_URL = "/"
+
+# Custom user model
 AUTH_USER_MODEL = 'gamestore.User'
 
+# Email backend settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp-mail.outlook.com'
 EMAIL_PORT = 587

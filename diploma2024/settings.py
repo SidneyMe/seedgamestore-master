@@ -108,11 +108,11 @@ if os.getenv('RUNNING_IN_DOCKER') == 'True':
     else:
         # Fallback to individual environment variables
         DATABASES['default'].update({
-            'NAME': os.getenv('MYSQLDATABASE', 'default_db_name'),
-            'USER': os.getenv('MYSQLUSER', 'default_user'),
-            'PASSWORD': os.getenv('MYSQLPASSWORD', 'default_password'),
-            'HOST': os.getenv('MYSQLHOST', 'default_host'),
-            'PORT': os.getenv('MYSQLPORT', 'default_port'),
+            'NAME': os.getenv('DATABASE_NAME'),
+            'USER': os.getenv('DATABASE_USER'),
+            'PASSWORD': os.getenv('DATABESE_PASSWORD'),
+            'HOST': os.getenv('DATABESE_HOST'),
+            'PORT': os.getenv('DATABASE_PORT'),
         })
         url = None
 

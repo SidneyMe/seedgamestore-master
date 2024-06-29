@@ -7,7 +7,6 @@ staticfiles
 .idea/
 __pycache__/
 db.sqlite3
-.yml
 
 media/
 

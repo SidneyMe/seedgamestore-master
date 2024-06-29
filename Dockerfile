@@ -1,29 +1,19 @@
-# Use an official Python runtime as a parent image
+# Set the base image
 FROM python:3.12.3
 
-# Set environment variables
-ENV PYTHONUNBUFFERED 1
-ENV DJANGO_DATABASE_URL sqlite:///code/db.sqlite3
-ENV DJANGO_ALLOWED_HOSTS localhost,127.0.0.1
-ENV DJANGO_DEBUG False
-ENV DJANGO_STATIC_ROOT /code/staticfiles
-ENV DJANGO_MEDIA_ROOT /code/mediafiles
+ENV RUNNING_IN_DOCKER=True
 
-# Set work directory
-WORKDIR /code
-COPY . /code
+# Set the working directory
+WORKDIR /app
 
-# Install dependencies
-RUN pip install -r requirements.txt
+# Copy the requirements file
+COPY requirements.txt .
 
-RUN python3 manage.py makemigrations
-RUN python3 manage.py migrate
-RUN python3 manage.py collectstatic --noinput
+# Install the dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy project
-COPY . /code/
+# Copy the project files
+COPY . .
 
-EXPOSE 8000
-
-# Use Gunicorn to serve the application
-CMD ["gunicorn", "diploma2024.wsgi:application", "0.0.0.0:8000"]
+# Set the entrypoint command
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

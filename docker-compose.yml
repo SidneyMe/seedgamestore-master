@@ -1,0 +1,5 @@
+version: '3.8'
+services:
+  web:
+    environment:
+      - RUNNING_IN_DOCKER=True

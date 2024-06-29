@@ -110,8 +110,8 @@ if os.getenv('RUNNING_IN_DOCKER') == 'True':
         DATABASES['default'].update({
             'NAME': os.getenv('DATABASE_NAME'),
             'USER': os.getenv('DATABASE_USER'),
-            'PASSWORD': os.getenv('DATABESE_PASSWORD'),
-            'HOST': os.getenv('DATABESE_HOST'),
+            'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+            'HOST': os.getenv('DATABASE_HOST'),
             'PORT': os.getenv('DATABASE_PORT'),
         })
         url = None

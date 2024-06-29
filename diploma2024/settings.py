@@ -2,9 +2,9 @@ import os
 import sys
 from pathlib import Path
 import dj_database_url
+import platform
 import cloudinary
 from dotenv import load_dotenv
-from urllib.parse import urlparse
 
 # Load environment variables from .env file
 load_dotenv()
@@ -97,34 +97,16 @@ DATABASES = {
 
 # Override for Doker
 if os.getenv('RUNNING_IN_DOCKER') == 'True':
-    # Check for private networking first
-    mysql_private_url = os.getenv('MYSQL_PRIVATE_URL')
-    mysql_url = os.getenv('MYSQL_URL')
-
-    if mysql_private_url:
-        url = urlparse(mysql_private_url)
-    elif mysql_url:
-        url = urlparse(mysql_url)
-    else:
-        # Fallback to individual environment variables
-        DATABASES['default'].update({
-            'NAME': os.getenv('DATABASE_NAME'),
-            'USER': os.getenv('DATABASE_USER'),
-            'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-            'HOST': os.getenv('DATABASE_HOST'),
-            'PORT': os.getenv('DATABASE_PORT'),
-        })
-        url = None
-
-    # If a URL is parsed, update the DATABASES configuration
-    if url:
-        DATABASES['default'].update({
-            'NAME': url.path[1:],  # Remove leading slash
-            'USER': url.username,
-            'PASSWORD': url.password,
-            'HOST': url.hostname,
-            'PORT': url.port,
-        })
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv('DATABASE_NAME'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': os.getenv('DATABASE_HOST'),
+        'PORT': os.getenv('DATABASE_PORT'),
+    }
+}
 
 # Password validation settings
 AUTH_PASSWORD_VALIDATORS = [

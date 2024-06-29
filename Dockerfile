@@ -8,7 +8,6 @@ ENV DJANGO_ALLOWED_HOSTS localhost,127.0.0.1
 ENV DJANGO_DEBUG False
 ENV DJANGO_STATIC_ROOT /code/staticfiles
 ENV DJANGO_MEDIA_ROOT /code/mediafiles
-ENV DJANGO_SECRET_KEY "dv&32wcmdwps@nqe8eg12z=#&(nrij#y#vfxnm@eor+l&dm0wy"
 
 # Set work directory
 WORKDIR /code

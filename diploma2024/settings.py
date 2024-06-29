@@ -2,6 +2,7 @@ import os
 import sys
 from pathlib import Path
 import dj_database_url
+import platform
 import cloudinary
 from dotenv import load_dotenv
 
@@ -73,12 +74,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'diploma2024.wsgi.application'
 
-DATABASES = {
+if platform.system() == "Windows":
+    DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
         }
     }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'wsd2018project'
+        }
+    }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {

@@ -73,7 +73,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'diploma2024.wsgi.application'
 
-DATABASES = {'default': dj_database_url.config(default=os.environ.get('DJANGO_DATABASE_URL'))}
+DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {

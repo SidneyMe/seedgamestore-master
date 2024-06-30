@@ -1,8 +1,6 @@
 # Set the base image
 FROM python:3.12.3
 
-ENV RUNNING_IN_DOCKER=True
-
 # Set the working directory
 WORKDIR /app
 

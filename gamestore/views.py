@@ -14,6 +14,7 @@ from simple_email_confirmation.models import EmailAddress
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.contrib.auth.views import LoginView
+from os import getenv
 
 
 SQLITESAFE = False
@@ -251,7 +252,7 @@ class RegistrationView(generic.FormView):
         send_mail(
             "Підтвердження електронної пошти для Seed Store", 
             "Ласкаво просимо на наш веб-сайт!", 
-            from_email="seedgamestore@outlook.com",
+            from_email=f"{getenv('EMAIL_HOST_USER')}",
             recipient_list=[user.email], 
             html_message='<p>Використовуйте це посилання для підтвердження вашої електронної пошти: <a href="http://{}{}">http://{}{}</a></p>'.format(
                 self.request.META['HTTP_HOST'], 

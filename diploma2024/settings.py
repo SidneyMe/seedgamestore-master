@@ -148,7 +148,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = (sys.argv[1] != 'runserver')
 
 # Allowed hosts
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'seedgamestore.up.railway.app']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'seedgamestore.up.railway.app', '0.0.0.0']
 
 # Static files settings
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')

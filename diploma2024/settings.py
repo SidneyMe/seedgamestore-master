@@ -12,6 +12,7 @@ load_dotenv()
 # Set CSRF cookie settings
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
+CSRF_TRUSTED_ORIGINS = ['https://seedgamestore.up.railway.app']
 
 # Define the base directory and project root
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -95,18 +96,9 @@ DATABASES = {
     }
 }
 
-# Override for Doker
-if os.getenv('RUNNING_IN_DOCKER') == 'True':
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DATABASE_NAME'),
-        'USER': os.getenv('DATABASE_USER'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-        'HOST': os.getenv('DATABASE_HOST'),
-        'PORT': os.getenv('DATABASE_PORT'),
-    }
-}
+# Update DATABASES settings if DATABASE_URL environment variable is present
+if os.getenv('PRODUCTION') == True:
+    DATABASES['default'] = dj_database_url.parse(os.getenv('DATABASE_URL'))
 
 # Password validation settings
 AUTH_PASSWORD_VALIDATORS = [
@@ -137,10 +129,6 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 # Cross-site sharing allowed methods
 XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
 
-# Update DATABASES settings if DATABASE_URL environment variable is present
-if 'DATABASE_URL' in os.environ:
-    DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
-
 # Secure proxy SSL header settings
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -148,7 +136,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = (sys.argv[1] != 'runserver')
 
 # Allowed hosts
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'seedgamestore.up.railway.app', '0.0.0.0']
 
 # Static files settings
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')

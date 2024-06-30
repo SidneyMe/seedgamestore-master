@@ -251,7 +251,7 @@ class RegistrationView(generic.FormView):
         send_mail(
             "Підтвердження електронної пошти для Seed Store", 
             "Ласкаво просимо на наш веб-сайт!", 
-            from_email="seedgamestore2@outlook.com",
+            from_email="seedgamestore@outlook.com",
             recipient_list=[user.email], 
             html_message='<p>Використовуйте це посилання для підтвердження вашої електронної пошти: <a href="http://{}{}">http://{}{}</a></p>'.format(
                 self.request.META['HTTP_HOST'], 

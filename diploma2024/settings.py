@@ -97,7 +97,7 @@ DATABASES = {
 }
 
 # Update DATABASES settings if DATABASE_URL environment variable is present
-if os.getenv('PRODUCTION') == True:
+if os.getenv('PRODUCTION') == 'True':
     DATABASES['default'] = dj_database_url.parse(os.getenv('DATABASE_URL'))
 
 # Password validation settings

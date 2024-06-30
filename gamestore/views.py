@@ -248,19 +248,19 @@ class RegistrationView(generic.FormView):
         form.save()
         user = authenticate(username=form.cleaned_data["username"], password=form.cleaned_data["password1"])
         login(self.request, user)
-        link = reverse("confirm_email", kwargs={"key": user.confirmation_key})
-        send_mail(
-            "Підтвердження електронної пошти для Seed Store", 
-            "Ласкаво просимо на наш веб-сайт!", 
-            from_email=f"{getenv('EMAIL_HOST_USER')}",
-            recipient_list=[user.email], 
-            html_message='<p>Використовуйте це посилання для підтвердження вашої електронної пошти: <a href="http://{}{}">http://{}{}</a></p>'.format(
-                self.request.META['HTTP_HOST'], 
-                link, 
-                self.request.META['HTTP_HOST'], 
-                link
-            )
-        )
+        # link = reverse("confirm_email", kwargs={"key": user.confirmation_key})
+        # send_mail(
+        #     "Підтвердження електронної пошти для Seed Store", 
+        #     "Ласкаво просимо на наш веб-сайт!", 
+        #     from_email=f"{getenv('EMAIL_HOST_USER')}",
+        #     recipient_list=[user.email], 
+        #     html_message='<p>Використовуйте це посилання для підтвердження вашої електронної пошти: <a href="http://{}{}">http://{}{}</a></p>'.format(
+        #         self.request.META['HTTP_HOST'], 
+        #         link, 
+        #         self.request.META['HTTP_HOST'], 
+        #         link
+        #     )
+        # )
         if form.cleaned_data["is_developer"]:
             user.is_developer = True
             user.save()

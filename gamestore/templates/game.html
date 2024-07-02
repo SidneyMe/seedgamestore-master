@@ -22,9 +22,8 @@
                                 <div class="col-xs-6 col-sm-4 col-md-3" style="padding: 0;">
                                     <h2 class="{% if game.developer == user %}panel-title col-xs-12 col-sm-6{% else %}panel-title col-xs-12{% endif %}">
                                         {% concat 'Грайте сьогодні ' game.name ' лише за $' game.price|stringformat:"s" as tweet_text %}
-                                        <a href="https://twitter.com/intent/tweet?text={{ tweet_text|urlencode }}&url={{ 'seedgamestore.up.railway.app'|add:request.get_full_path|urlencode }}" target="_blank" style="text-align: right;"><span class="glyphicon glyphicon-send" style="margin-right: 0.5em;"></span> Поширити</a>
+                                        <a href="https://twitter.com/intent/tweet?text={{ tweet_text|urlencode }}&url={{ 'seedgamestore.up.railway.app' }}" target="_blank" style="text-align: right;"><span class="glyphicon glyphicon-send" style="margin-right: 0.5em;"></span> Поширити</a>
                                     </h2>
-                                    
                                     {% if game.developer == user %}
                                         <h2 class="panel-title col-xs-12 col-sm-6"><a href="{% url "game_update" game.id %}" style="text-align: right;"><span class="glyphicon glyphicon-edit" style="margin-right: 0.1em;"></span> Редагувати </a></h2>
                                     {% endif %}

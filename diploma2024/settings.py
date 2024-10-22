@@ -84,21 +84,29 @@ TEMPLATES = [
 # WSGI application
 WSGI_APPLICATION = 'diploma2024.wsgi.application'
 
-# Database settings
+#sqlite
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'MySQL80',
-        'USER': 'root',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
+        }
     }
-}
+
+# Database settings
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'MySQL80',
+#         'USER': 'root',
+#         'PASSWORD': 'admin',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
 
 # Update DATABASES settings if DATABASE_URL environment variable is present
-if os.getenv('PRODUCTION') == 'True':
-    DATABASES['default'] = dj_database_url.parse(os.getenv('DATABASE_URL'))
+# if os.getenv('PRODUCTION') == 'True':
+#     DATABASES['default'] = dj_database_url.parse(os.getenv('DATABASE_URL'))
 
 # Password validation settings
 AUTH_PASSWORD_VALIDATORS = [

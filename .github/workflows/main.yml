@@ -62,11 +62,15 @@ jobs:
 
     - name: Install GKE Auth Plugin
       run: |
+        sudo apt-get install apt-transport-https ca-certificates gnupg
+        echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+        curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
         sudo apt-get update
         sudo apt-get install -y google-cloud-sdk-gke-gcloud-auth-plugin
+        sudo apt-get install -y kubectl
+        gcloud components install gke-gcloud-auth-plugin
 
     - name: Deploy to GKE
       run: |
-        gcloud components install gke-gcloud-auth-plugin
         gcloud container clusters get-credentials small-k8s-cluster --region us-central1
         kubectl apply -f k8s/deployment.yaml --validate=false

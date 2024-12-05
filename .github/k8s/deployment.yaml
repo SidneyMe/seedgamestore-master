@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-app
+        image: gcr.io/booming-splicer-443411-u6/my-app:latest
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app-canary
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app-canary
+  template:
+    metadata:
+      labels:
+        app: my-app-canary
+    spec:
+      containers:
+      - name: my-app
+        image: gcr.io/booming-splicer-443411-u6/my-app:canary
+        ports:
+        - containerPort: 80

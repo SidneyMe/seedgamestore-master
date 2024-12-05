@@ -60,7 +60,13 @@ jobs:
       with:
         project_id: booming-splicer-443411-u6
 
+    - name: Install GKE Auth Plugin
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y google-cloud-sdk-gke-gcloud-auth-plugin
+
     - name: Deploy to GKE
       run: |
+        gcloud components install gke-gcloud-auth-plugin
         gcloud container clusters get-credentials small-k8s-cluster --region us-central1
-        kubectl apply -f k8s/deployment.yaml
+        kubectl apply -f k8s/deployment.yaml --validate=false

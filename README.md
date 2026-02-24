@@ -1,67 +1,76 @@
 # Seed Game Store
 
-Seed Game Store є веб-додатком, розробленим з використанням Django, призначеним для продажу відеоігор. Він дозволяє користувачам переглядати каталог ігор, придбавати їх та грати в них безпосередньо у браузері. Розробники можуть додавати свої ігри до магазину, встановлювати ціни та відстежувати статистику продажів.
+Seed Game Store is a web application developed using Django, designed for selling video games. It allows users to browse a game catalogue, purchase games, and play them directly in the browser. Developers can add their games to the store, set prices, and track sales statistics.
 
-## Основні функції
+## Main Features
 
-Для користувачів:
-- Перегляд каталогу ігор з фільтрами та сортуванням.
-- Детальний перегляд інформації про гру, включаючи опис, знімки екрану та відео.
-- Онлайн-покупки ігор.
-- Гра в ігри безпосередньо у браузері.
-- Створення облікового запису та відстеження історії покупок.
+**For users:**
 
-Для розробників:
-- Додавання та редагування ігор у каталозі.
-- Встановлення цін на ігри.
-- Перегляд статистики продажів та доходів.
-- REST API для інтеграції з іншими сервісами.
+* Browse the game catalogue with filters and sorting.
+* View detailed game information, including descriptions, screenshots, and videos.
+* Purchase games online.
+* Play games directly in the browser.
+* Create an account and track purchase history.
 
-## Технології
+**For developers:**
 
-#### Backend: Django (Python), SQLite
-#### Frontend: HTML, CSS, JavaScript
-#### Cloud Storage: Cloudinary
-#### Email: Django SMTP
-#### Інше: asgiref, certifi, dj-database-url, django-appconf, django-ajax-selects, django-autocomplete-light, django-select2, django-simple-email-confirmation, django-social-share, gunicorn, packaging, pillow, psycopg2-binary, pytz, setuptools, sqlparse, whitenoise
+* Add and edit games in the catalogue.
+* Set prices for games.
+* View sales and revenue statistics.
+* REST API for integration with other services.
 
-## Встановлення та налаштування
+## Technologies
 
-1. Клонуйте репозиторій:
-    ```
-    git clone https://github.com/your-username/seed-game-store.git
-    ```
+**Backend:** Django (Python), SQLite
 
-2. Створіть та активуйте віртуальне середовище:
-    ```
-    python -m venv venv
-    source venv/bin/activate  # Для Linux/macOS
-    venv\Scripts\activate  # Для Windows
-    ```
+**Frontend:** HTML, CSS, JavaScript
 
-3. Встановіть залежності:
-    ```
-    pip install -r requirements.txt
-    ```
+**Cloud Storage:** Cloudinary
 
-4. Застосуйте міграції бази даних:
-    ```
-    python manage.py migrate
-    ```
+**Email:** Django SMTP
 
-5. Запустіть сервер розробки:
-    ```
-    python manage.py runserver
-    ```
+## Installation and Setup
 
-6. Відкрийте свій браузер та перейдіть за посиланням: http://127.0.0.1:8000/
+1. Clone the repository:
 
-## Ліцензія
+``` Powershell
+git clone https://github.com/your-username/seed-game-store.git
+```
 
-Цей проект поширюється за ліцензією MIT.
+2. Create and activate a virtual environment:
 
-## Контактна інформація
+``` Powershell
+python -m venv venv
+source venv/bin/activate  # For Linux/macOS
+venv\Scripts\activate     # For Windows
+```
 
-Якщо у вас є питання або пропозиції, будь ласка, зв'яжіться з нами:
+3. Install dependencies:
 
-Email: seedgamestore1@outlook.com
+``` Powershell
+pip install -r requirements.txt
+```
+
+4. Apply database migrations:
+
+``` Powershell
+python manage.py migrate
+```
+
+5. Run the development server:
+
+``` PowerShell
+python manage.py runserver
+```
+
+6. Open your browser and go to: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+
+## License
+
+This project is distributed under the MIT License.
+
+## Contact Information
+
+If you have any questions or suggestions, please contact us:
+
+Email: [seedgamestore1@outlook.com](mailto:seedgamestore1@outlook.com)
